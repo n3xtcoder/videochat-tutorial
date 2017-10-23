@@ -4,6 +4,10 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "dotenv-safe": "4.0.4"
+    "body-parser": "1.18.2",
+    "dotenv-safe": "4.0.4",
+    "express": "4.16.2",
+    "passport": "0.4.0",
+    "passport-jwt": "3.0.0"
   }
 }
