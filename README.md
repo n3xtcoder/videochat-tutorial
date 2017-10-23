@@ -7,6 +7,8 @@ cd server
 cp .env.example .env # Edit this with the right Twillio credentials
 node .
 ```
+Add your code to ./ui
+
 
 ## Using the API
 
