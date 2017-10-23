@@ -47,8 +47,22 @@ Once you are running the API:
 
 For a quick and easy challenge to begin, first create a login form for the users. The form must:
 
-- submit JSON the the /user endpoint in a POST
-- capture the JWT and store it locally somehow for the next request
+- Submit JSON the the /user endpoint in a POST
+- Capture the JWT and store it locally somehow for the next request
 - Demonstrate the call to /token returns 200 (passes authorisation)
 
 Don't forget to employ validation, tooltips, and any other UI techniques to make the form user friendly. Design is not the main focus but make sure the UI is clean and easy to use.
+
+## Testing with https / between devices
+ 
+Ngrok is a tool to create a secure http(s) tunnel to your development environment.
+ 
+1. Install [ngrok](https://ngrok.com/)
+```
+npm install ngrok -g
+```
+2. Setup a tunnel to the development server
+```
+ngrok http 3000
+```
+3. Copy the ngrok url from the output and distribute it to someone else.
