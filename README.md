@@ -1,24 +1,60 @@
+# Schön Digital Labs & N3xtcoder - Career Hacker Workshop
+
+This repository has been created as a starting point for our workshop. Before the event, participants should follow the steps below in Setup section. To gain free admission, participants can submit a Pull request with their solution to the *Teaser Challenge* below.
+
 ## Setup
 
 All of the API server code is in the folder `./server`. To start development:
 
 ```
 cd server
-yarn install # or npm install
+yarn install # or npm install (some warnings may occur, but usually nothing fatal)
 cp .env.example .env # Edit this with the right Twillio credentials
 node .
 ```
 
-The API will run at http://localhost:3000 
-
 ## Using the API
 
-There are two example users by default:
+The API will run at http://localhost:3000 and provide two endpoints:
 
-1. username: doctor
-2. username patient
+### User
 
-Both use the password "password" for testing purposes.
+POST /user *Authenticates the user and provides a JWT*
+Request body:
+```
+{ 
+  "username":"patient",
+  "password":"password"
+}
+```
+Responses:
+
+200 Success - *The authentication was successful*
+Example body:
+```
+{ 
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJwYXRpZW50IiwicGFzc3dvcmQiOiJwYXNzd29yZCIsImRpc3BsYXlOYW1lIjoiSG9tZXIgU2ltcHNvbiIsInJvbGUiOiJwYXRpZW50IiwiaWF0IjoxNTA4NzYxNDA0LCJleHAiOjE1MDg4NDc4MDR9.VDIbyyDpV8_g_KjWQw4H6UDPpvSuYjpjxM1hZ-ukpZ0"
+}
+```
+
+404 Not found - *The user could not be found*
+401 Unauthorized - *Authentication failed*
+
+### Token
+
+GET /token *Retrieves a token for Twillio*
+Headers: 
+`Authorization: Bearer <JWT>`
+
+Responses:
+200 Success
+```
+{ 
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJwYXRpZW50IiwicGFzc3dvcmQiOiJwYXNzd29yZCIsImRpc3BsYXlOYW1lIjoiSG9tZXIgU2ltcHNvbiIsInJvbGUiOiJwYXRpZW50IiwiaWF0IjoxNTA4NzYxNDA0LCJleHAiOjE1MDg4NDc4MDR9.VDIbyyDpV8_g_KjWQw4H6UDPpvSuYjpjxM1hZ-ukpZ0"
+}
+```
+401 Unauthorized - *Invalid JWT*
+400 Bad Request
 
 ### Curl example
 ```
@@ -33,6 +69,15 @@ curl -H "Content-Type: application/json" \
      -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJwYXRpZW50IiwicGFzc3dvcmQiOiJwYXNzd29yZCIsImRpc3BsYXlOYW1lIjoiSG9tZXIgU2ltcHNvbiIsInJvbGUiOiJwYXRpZW50IiwiaWF0IjoxNTA4NzYxNDA0LCJleHAiOjE1MDg4NDc4MDR9.VDIbyyDpV8_g_KjWQw4H6UDPpvSuYjpjxM1hZ-ukpZ0" \
      http://localhost:3000/token
 ```
+
+## Development/Testing
+
+There are two example users by default:
+
+1. username: doctor
+2. username patient
+
+Both use the password "password" for testing purposes.
 
 ## Challenge Process
 
