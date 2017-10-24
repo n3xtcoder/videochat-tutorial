@@ -1,6 +1,8 @@
 # Schön Digital Labs & N3xtcoder - Career Hacker Workshop
 
-This repository has been created as a starting point for our workshop. Before the event, participants should follow the steps below in Setup section. To gain free admission, participants can submit a *Pull Request* with their solution to the *Teaser Challenge* below.
+This repository has been created as a starting point for our workshop. In the workshop we will learn to create a peer2peer video chat using Twillio. We will explore various UI edge cases such as disconnection and connection degradation in addition to anciliary features such as text chat.
+
+Before the event, participants should follow the steps below in Setup section. To gain free admission, participants can submit a *Pull Request* with their solution to the *Teaser Challenge* below.
 
 ## Setup
 
