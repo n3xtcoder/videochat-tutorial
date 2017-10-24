@@ -1,6 +1,6 @@
 # Schön Digital Labs & N3xtcoder - Career Hacker Workshop
 
-This repository has been created as a starting point for our workshop. Before the event, participants should follow the steps below in Setup section. To gain free admission, participants can submit a Pull request with their solution to the *Teaser Challenge* below.
+This repository has been created as a starting point for our workshop. Before the event, participants should follow the steps below in Setup section. To gain free admission, participants can submit a *Pull Request* with their solution to the *Teaser Challenge* below.
 
 ## Setup
 
@@ -100,7 +100,7 @@ Don't forget to employ validation, tooltips, and any other UI techniques to make
 
 ## Testing with https / between devices
  
-Ngrok is a tool to create a secure http(s) tunnel to your development environment.
+When developing a peer2peer video chat you may find it useful to test communication between devices and share links to your dev environment with those devices and other users. Ngrok is a tool to create a secure http(s) tunnel to your development environment which enables you to conveniently do this kind of testing. Here's how to use it:
  
 1. Install [ngrok](https://ngrok.com/)
 ```
