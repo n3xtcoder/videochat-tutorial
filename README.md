@@ -89,6 +89,7 @@ Once you are running the API:
 2. Within this folder, feel free to use yarn or npm or any other tools and frameworks you require. 
 3. To submit a solution, make a pull request with your changes.
 4. Don't forget to include documentation on how to run your UI.
+5. You should not need to change any code inside `./server` but if you decide to, please comment as to why.
 
 
 ## Teaser challenge - make a login page
