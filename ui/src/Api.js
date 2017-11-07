@@ -8,23 +8,15 @@ function postForm() {
     		username: "doctor",
     		password: "password"
     	})
-    }).then(function(res){res.json().then( data => sessionStorage.setItem("jwt", data.jwt))});
+    }).then(res=>res.json().then( data => sessionStorage.setItem("jwt", data.jwt)));
 }
 
 function getToken() {
-    function beforesend(request) {
-        var jwt = "bearer " + sessionStorage.getItem("jwt");
-        request.setRequestHeader('authorization', jwt)
-    }
-    var xhr2 = new XMLHttpRequest();
-    xhr2.onreadystatechange = function() {
-        if (this.readyState === 4 && this.status === 200) {
-            console.log(this.response);
-        }
-    };
-    xhr2.open('GET', "/token");
-    beforesend(xhr2);
-    xhr2.send();
+    fetch("/token",{
+        headers: new Headers({
+    		"authorization": "bearer " + sessionStorage.getItem("jwt")
+    	}),
+    }).then(res=>res.json().then(data=>console.log(data)))
 }
 
 const Api = {
