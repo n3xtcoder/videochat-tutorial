@@ -11,9 +11,6 @@ import Api from "./Api";
 class App extends Component {
 
     render() {
-        Api.postForm();
-        Api.getToken();
-
         return (
             <Login/>
         );
