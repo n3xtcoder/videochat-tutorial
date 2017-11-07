@@ -1,8 +1,8 @@
 function postForm() {
-    fetch('/user', {
-    	method: 'post',
+    fetch("user", {
+    	method: "post",
         headers: new Headers({
-    		'Content-Type': 'application/json'
+    		"Content-Type": "application/json"
     	}),
     	body: JSON.stringify({
     		username: "doctor",
