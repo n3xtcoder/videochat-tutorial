@@ -1,14 +1,14 @@
 function postForm() {
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function() {
-        if (this.readyState === 4 && this.status === 200) {
-            console.log(JSON.parse(this.response).jwt);
-            sessionStorage.setItem('jwt', JSON.parse(this.response).jwt);
-        }
-    };
-    xhr.open('POST', "/user");
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send(JSON.stringify({username: "doctor", password: "password"}))
+    fetch('/user', {
+    	method: 'post',
+        headers: new Headers({
+    		'Content-Type': 'application/json'
+    	}),
+    	body: JSON.stringify({
+    		username: "doctor",
+    		password: "password"
+    	})
+    }).then(function(res){res.json().then( data => sessionStorage.setItem("jwt", data.jwt))});
 }
 
 function getToken() {
