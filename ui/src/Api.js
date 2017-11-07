@@ -23,7 +23,12 @@ function getTwilio(e) {
             headers: new Headers({
                 "authorization": "bearer " + sessionStorage.getItem("jwt")
             }),
-        }).then(res=>res.json().then(data=>console.log(data)))
+        }).then(res=>res.json().then(function(data){
+                console.log(data);;
+                sessionStorage.setItem("identity",data.identity);
+                sessionStorage.setItem("token",data.token);
+            }
+        ))
     }
 
 }
