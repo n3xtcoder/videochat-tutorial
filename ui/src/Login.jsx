@@ -14,6 +14,7 @@ function Login () {
             </label>
             <input type="text" className="form-control" id="inputPassword" placeholder="Password" name="password"/>
         </div>
+        <button type="submit" className="btn btn-outline-info">Login</button>
     </form>)
 }
 
