@@ -5,7 +5,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const app = express();
-app.set('port', (process.env.PORT || 3001));
+app.set('port', (process.env.PORT || 3000));
 
 // Parse json in the body - available later as an object in req.body
 app.use(bodyParser.json());
