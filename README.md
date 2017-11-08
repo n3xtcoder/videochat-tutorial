@@ -1,4 +1,4 @@
-# Schön Digital Labs & N3xtcoder - Career Hacker Workshop
+# Schön Digital Labs & N3xtcoder - React VS Vue challenge!
 
 This repository has been created as a starting point for our workshop. In the workshop we will learn to create a peer2peer video chat using Twillio. We will explore various UI edge cases such as disconnection and connection degradation in addition to anciliary features such as text chat.
 
