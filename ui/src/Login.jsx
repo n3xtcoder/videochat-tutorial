@@ -12,7 +12,7 @@ function Login (props) {
             <label htmlFor="inputPassword">
                 Password
             </label>
-            <input type="text" className="form-control" id="inputPassword" placeholder="Password" name="password"/>
+            <input type="password" className="form-control" id="inputPassword" placeholder="Password" name="password"/>
         </div>
         <button type="submit" className="btn btn-outline-info" onClick={props.login}>Login</button>
     </form>)
