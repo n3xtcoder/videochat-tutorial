@@ -2,6 +2,8 @@ function getTwilio(e) {
 
     e.preventDefault();
 
+    var that = this;
+
     fetch("user", {
     	method: "post",
         headers: new Headers({
@@ -24,13 +26,18 @@ function getTwilio(e) {
                 "authorization": "bearer " + sessionStorage.getItem("jwt")
             }),
         }).then(res=>res.json().then(function(data){
-                console.log(data);;
-                sessionStorage.setItem("identity",data.identity);
-                sessionStorage.setItem("token",data.token);
+                var state={
+                    loggedIn: true,
+                    identity: data.identity,
+                    token: data.token
+                };
+                that.setState(state);
+                sessionStorage.setItem("loggedIn", state.loggedIn);
+                sessionStorage.setItem("identity", state.identity);
+                sessionStorage.setItem("token", state.token);
             }
         ))
     }
-
 }
 
 const Api = {
