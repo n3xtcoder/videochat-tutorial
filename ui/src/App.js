@@ -5,20 +5,22 @@ import Twilio from "./Twilio"
 
 
 
-
+const initialState = {
+    loggedIn: sessionStorage.getItem("loggedIn"),
+    identity: sessionStorage.getItem("identity"),
+    token: sessionStorage.getItem("token")
+}
 
 class App extends Component {
-    state = {
-          loggedIn: sessionStorage.getItem("loggedIn"),
-          identity: sessionStorage.getItem("identity"),
-          token: sessionStorage.getItem("token")
-      };
-
-    changeLoginState = Api.getTwilio.bind(this);
-
+    state = initialState;
+    login = Api.getTwilio.bind(this);
+    logout = function(){
+        sessionStorage.clear();
+        this.setState(initialState);
+    }.bind(this)
 
     render() {
-        return this.state.loggedIn ? <Twilio identity={this.state.identity} token={this.state.token}/> : <Login login={this.changeLoginState}/>
+        return this.state.loggedIn ? <Twilio identity={this.state.identity} token={this.state.token} logout={this.logout}/> : <Login login={this.login}/>
     }
 }
 
