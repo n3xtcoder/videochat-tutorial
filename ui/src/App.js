@@ -19,10 +19,10 @@ class App extends Component {
 
     login = Api.getTwilio.bind(this);
 
-    logout = function(){
+    logout = ()=>{
         sessionStorage.clear();
         this.setState(this.getState());
-    }.bind(this)
+    }
 
 
     render() {
