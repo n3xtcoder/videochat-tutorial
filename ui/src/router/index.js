@@ -1,44 +1,47 @@
 import Vue from 'vue'
-import Vuex from 'vuex'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import Login from '@/components/Login'
-import {auth} from '@/utils/client'
+import {store, login, logout} from '@/store'
 
-Vue.use(Vuex)
 Vue.use(Router)
 
-const store = new Vuex.Store({
-  state: {
-    user: {
-      jwt: ''
-    }
-  },
-  mutations: {
-    addJwt (state, jwt) {
-      console.log(jwt)
-      state.user.jwt = jwt
-    }
+const skipIfLoggedIn = (to, from, next) => {
+  if (store.getters.isLoggedIn) {
+    return next('/')
+  } else {
+    return next()
   }
-})
+}
 
-function login (username, password) {
-  auth(username, password).then(function (jwt) {
-    store.commit('addJwt', jwt)
-  })
+const ensureLoggedIn = (to, from, next) => {
+  if (!store.getters.isLoggedIn) {
+    return next('/login')
+  } else {
+    next()
+  }
 }
 
 export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      name: 'Index',
+      component: HelloWorld,
+      beforeEnter: ensureLoggedIn
     },
     { path: '/login',
       name: 'Login',
       component: Login,
-      props: { login }
+      props: { login },
+      beforeEnter: skipIfLoggedIn
+    },
+    { path: '/logout',
+      name: 'Logout',
+      beforeEnter: (to, from, next) => {
+        logout()
+        return ensureLoggedIn(to, from, next)
+      }
     }
   ]
 })

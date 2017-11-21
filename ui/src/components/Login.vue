@@ -8,8 +8,6 @@
 </template>
 
 <script>
-  import { login } from '../utils/client'
-
   export default {
     name: 'Login',
     data () {
@@ -24,7 +22,12 @@
         return !(this.username && this.password)
       },
       onLogin: function () {
-        this.login(this.username, this.password)
+        this.login(this.username, this.password).then(() => {
+          console.log('logged in!')
+          return this.$router.push('/')
+        }).catch((err) => {
+          this.error = `${err}`
+        })
       }
     },
     props: ['login']
