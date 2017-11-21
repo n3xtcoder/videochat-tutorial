@@ -24,8 +24,9 @@
         return !(this.username && this.password)
       },
       onLogin: function () {
-        login(this.username, this.password)
+        this.login(this.username, this.password)
       }
-    }
+    },
+    props: ['login']
   }
 </script>

@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const BASE_URL = '/api'
 
-export function login (username, password) {
+export function auth (username, password) {
   return axios({
     method: 'post',
     url: `${BASE_URL}/user`,
@@ -12,5 +12,6 @@ export function login (username, password) {
     }
   }).then((response) => {
     console.log(response.data.jwt)
+    return response.data.jwt
   })
 }
