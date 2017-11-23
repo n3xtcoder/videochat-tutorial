@@ -19,6 +19,7 @@ export default (to, from, next) => {
         path: '/login',
       });
     }
+    console.log('[The token we sent has been validated by the server]');
     next();
   });
 };
