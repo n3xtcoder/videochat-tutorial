@@ -37,15 +37,14 @@
 <script>
 import axios from 'axios';
 import router from '@/router';
-
-const tokenName = 'demoToken';
+import { TOKEN_NAME } from '@/environment';
 
 export default {
   name: 'login',
   mounted() {
-    const token = localStorage.getItem(tokenName);
+    const token = localStorage.getItem(TOKEN_NAME);
     if (token) {
-      localStorage.removeItem(tokenName);
+      localStorage.removeItem(TOKEN_NAME);
     }
   },
   data() {
@@ -67,7 +66,7 @@ export default {
           axios.post('/api/user', data)
             .then((response) => {
               console.log('Logged in');
-              localStorage.setItem(tokenName, response.data.jwt);
+              localStorage.setItem(TOKEN_NAME, response.data.jwt);
               router.push('/');
             })
             .catch((e) => {
