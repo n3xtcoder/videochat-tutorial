@@ -12,11 +12,11 @@ const validateToken = () => {
 };
 
 export default (to, from, next) => {
-  validateToken().then((res) => {
-    if (!res) {
+  validateToken().then((valid) => {
+    if (!valid) {
+      console.warn('Token missing, expired or invalid');
       next({
         path: '/login',
-        query: { redirect: to.fullPath },
       });
     }
     next();
