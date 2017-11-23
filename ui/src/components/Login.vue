@@ -7,12 +7,20 @@
               <el-form-item
                 prop="user"
                 label="User"
+                :rules="[
+          { required: true, message: 'Please input your username', trigger: 'blur' },
+          { min: 3, message: 'Username should have a length of at least 3', trigger: 'blur' }
+        ]"
               >
                 <el-input @keyup.13.native="submitForm('validateForm')" v-model="validateForm.user"></el-input>
               </el-form-item>
               <el-form-item
                 prop="password"
                 label="Password"
+                :rules="[
+          { required: true, message: 'Please input your password', trigger: 'blur' },
+          { min: 6, message: 'Username should have a length of at least 6', trigger: 'blur' }
+        ]"
               >
                 <el-input @keyup.enter.native="submitForm('validateForm')"  type="password" v-model="validateForm.password"></el-input>
               </el-form-item>
