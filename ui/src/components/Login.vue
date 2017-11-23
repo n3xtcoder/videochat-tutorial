@@ -35,8 +35,8 @@
   </div>
 </template>
 <script>
+import axios from 'axios';
 import router from '@/router';
-
 
 export default {
   name: 'login',
@@ -51,11 +51,31 @@ export default {
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
-        const params = new URLSearchParams();
-        params.append('username', this.validateForm.user);
-        params.append('password', this.validateForm.password);
+        const data = {
+          username: this.validateForm.user,
+          password: this.validateForm.password,
+        };
         if (valid) {
-          console.log('valid...');
+          axios.post('/api/user', data)
+            // .then((response) => {
+            .then(() => {
+              // JSON responses are automatically parsed.
+              console.log('Logged in');
+              router.push('/');
+            })
+            .catch((e) => {
+              console.log(e);
+              const { response } = e;
+              const loginErrorNotification = {
+                title: 'Login Error',
+                message: 'Cannot login. Try again',
+                duration: 2000,
+              };
+              if (response && response.data && response.data.message) {
+                loginErrorNotification.message = response.data.message;
+              }
+              this.$notify(loginErrorNotification);
+            });
         }
         return false;
       });
