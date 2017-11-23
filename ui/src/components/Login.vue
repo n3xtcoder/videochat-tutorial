@@ -42,6 +42,12 @@ const tokenName = 'demoToken';
 
 export default {
   name: 'login',
+  mounted() {
+    const token = localStorage.getItem(tokenName);
+    if (token) {
+      localStorage.removeItem(tokenName);
+    }
+  },
   data() {
     return {
       validateForm: {
