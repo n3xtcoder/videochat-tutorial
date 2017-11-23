@@ -38,6 +38,8 @@
 import axios from 'axios';
 import router from '@/router';
 
+const tokenName = 'demoToken';
+
 export default {
   name: 'login',
   data() {
@@ -57,10 +59,9 @@ export default {
         };
         if (valid) {
           axios.post('/api/user', data)
-            // .then((response) => {
-            .then(() => {
-              // JSON responses are automatically parsed.
+            .then((response) => {
               console.log('Logged in');
+              localStorage.setItem(tokenName, response.data.jwt);
               router.push('/');
             })
             .catch((e) => {
