@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Notification } from 'element-ui';
 import { TOKEN_NAME } from '@/environment';
 
 const validateToken = () => {
@@ -18,8 +19,12 @@ export default (to, from, next) => {
       next({
         path: '/login',
       });
+    } else {
+      Notification({
+        title: 'Demonstrate 200',
+        message: 'Your token has passed server authorisation. Refresh the browser to retry',
+      });
     }
-    console.log('[The token we sent has been validated by the server]');
     next();
   });
 };
