@@ -67,6 +67,10 @@ export default {
             .then((response) => {
               console.log('Logged in');
               localStorage.setItem(TOKEN_NAME, response.data.jwt);
+              this.$message({
+                message: `Welcome ${data.username}!`,
+                type: 'success',
+              });
               router.push('/');
             })
             .catch((e) => {
