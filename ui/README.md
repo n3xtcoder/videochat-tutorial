@@ -16,53 +16,53 @@ For automated tests, [Jest](https://facebook.github.io/jest/) and [Nightwatch](h
 
 1. Node.js and NPM is installed.
 
-```
-node --version
-npm --version
-```
+    ```
+    node --version
+    npm --version
+    ```
 
 2. Install the UI project's dependencies
 
-```
-npm install
-```
+    ```
+    npm install
+    ```
 
 Once the dependencies are installed, you can:
 
 * **Serve with hot reload at [`localhost:8080`](http://localhost:8080)** (it will use a different port, if the port's already in use). Ideal for development and fast iteration.
 
-```
-npm run dev
-```
+    ```
+    npm run dev
+    ```
 
 * **Build for production with minification.** Minified files will be created in `/dist` folder.
 
-```
-npm run build
-```
+    ```
+    npm run build
+    ```
 
 * **Build for production and view the bundle analyzer report**. Bundle analyzer report's available at [`localhost:8888`](http://localhost:8888/).
 
-```
-npm run build --report
-```
+    ```
+    npm run build --report
+    ```
 
 ### Run tests
 
 * **Run all tests**
 
-```
-npm test
-```
+    ```
+    npm test
+    ```
 
 * **Run unit tests with Jest**
 
-```
-npm run unit
-```
+    ```
+    npm run unit
+    ```
 
 * **Run end-to-end tests with Nightwatch**
 
-```
-npm run e2e
-```
+    ```
+    npm run e2e
+    ```
