@@ -5,6 +5,8 @@
 
 We initialized our Vue.js user interface solution using [`vuejs/vue-cli`](https://github.com/vuejs/vue-cli) scaffolding tool.
 
+For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for `vue-loader`](http://vuejs.github.io/vue-loader).
+
 We set up [ESLint](https://eslint.org/) to lint the code, using [Airbnb's JavaScript Style Guide](https://github.com/airbnb/javascript).
 
 For automated tests, [Jest](https://facebook.github.io/jest/) and [Nightwatch](http://nightwatchjs.org/) for e2e tests are setup.
@@ -12,27 +14,55 @@ For automated tests, [Jest](https://facebook.github.io/jest/) and [Nightwatch](h
 
 ## Build Setup
 
-``` bash
-# install dependencies
+1. Node.js and NPM is installed.
+
+```
+node --version
+npm --version
+```
+
+2. Install the UI project's dependencies
+
+```
 npm install
+```
 
-# serve with hot reload at localhost:8080
+Once the dependencies are installed, you can:
+
+* **Serve with hot reload at [`localhost:8080`](http://localhost:8080)** (it will use a different port, if the port's already in use). Ideal for development and fast iteration.
+
+```
 npm run dev
+```
 
-# build for production with minification
+* **Build for production with minification.** Minified files will be created in `/dist` folder.
+
+```
 npm run build
+```
 
-# build for production and view the bundle analyzer report
+* **Build for production and view the bundle analyzer report**. Bundle analyzer report's available at [`localhost:8888`](http://localhost:8888/).
+
+```
 npm run build --report
+```
 
-# run unit tests
-npm run unit
+### Run tests
 
-# run e2e tests
-npm run e2e
+* **Run all tests**
 
-# run all tests
+```
 npm test
 ```
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+* **Run unit tests with Jest**
+
+```
+npm run unit
+```
+
+* **Run end-to-end tests with Nightwatch**
+
+```
+npm run e2e
+```
