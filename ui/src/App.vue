@@ -1,6 +1,12 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
+  <div class="app">
+    <b-navbar toggleable="md" type="dark" variant="dark">
+      <b-navbar-brand href="#">MindDoc</b-navbar-brand>
+      <b-navbar-nav>
+        <b-nav-item href="/">Home</b-nav-item>
+        <b-nav-item href="/video">Video</b-nav-item>
+      </b-navbar-nav>
+    </b-navbar>
     <router-view/>
   </div>
 </template>
@@ -12,12 +18,5 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
