@@ -19,6 +19,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'Login',
   data() {
@@ -29,7 +31,15 @@ export default {
   },
   methods: {
     login() {
-      console.log(`TODO: POST request with username: ${this.username} and password: ${this.password}`);
+      axios.post('/api/user', {
+        username: this.username,
+        password: this.password,
+      }).then((data) => {
+        console.log(data);
+      }).catch((error) => {
+        const { response } = error;
+        console.error(response);
+      });
     },
   },
 };
