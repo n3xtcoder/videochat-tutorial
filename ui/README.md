@@ -61,6 +61,12 @@ Once the dependencies are installed, you can:
     npm run unit
     ```
 
+* **Run unit tests continuously with `watch` mode enabled**
+
+    ```
+    npm run watch-unit
+    ```
+
 * **Run end-to-end tests with Nightwatch**
 
     ```
