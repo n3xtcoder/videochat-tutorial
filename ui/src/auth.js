@@ -11,6 +11,10 @@ const jwt = (() => {
       value = j;
       localStorage.setItem('jwt', value);
     },
+    remove() {
+      value = null;
+      localStorage.removeItem('jwt');
+    },
   };
 })();
 
@@ -26,6 +30,23 @@ function authenticate(username, password) {
     .catch((error) => { throw getErrorMessage(error.response); });
 }
 
+function assertAuthenticated() {
+  return new Promise((resolve, reject) => {
+    const t = jwt.get();
+    if (t === null) reject('No JWT available.');
+    // TODO: We could create an endpoint, that tells us if the JWT is valid
+    // without creating a token with Twilio.
+    // As we don't have it yet, let's make a call to /api/token with the JWT.
+    axios.get('/api/token', { headers: { Authorization: `Bearer ${t}` } })
+      .then(resolve)
+      .catch(() => {
+        jwt.remove();
+        reject(`JWT ${t} was invalid.`);
+      });
+  });
+}
+
 export default {
+  assertAuthenticated,
   authenticate,
 };
