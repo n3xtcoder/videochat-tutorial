@@ -6,7 +6,7 @@
           <h1>VideoChat Tutorial</h1>
           <h2>Login</h2>
           <b-form @submit.prevent="login">
-            <b-alert variant="danger" dismissible :show="error" @dismissed="error = null">
+            <b-alert variant="danger" dismissible :show="error !== ''" @dismissed="error = ''">
               {{ error }}
             </b-alert>
             <b-form-input
@@ -45,7 +45,7 @@ export default {
     return {
       username: '',
       password: '',
-      error: null,  // b-alert show won't work well with empty string
+      error: '',
     };
   },
   methods: {
