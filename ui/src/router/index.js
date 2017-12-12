@@ -21,6 +21,10 @@ export default new Router({
       path: '/login',
       name: 'LoginForm',
       component: LoginForm,
+      // Here we actually want to make sure it's not authenticated
+      beforeEnter: (to, from, next) => auth.assertAuthenticated()
+        .then(() => { next({ path: '/' }); })
+        .catch(() => next()),
     },
   ],
 });
