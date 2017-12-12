@@ -11,12 +11,14 @@
             </b-alert>
             <b-form-input
               v-model="username"
+              name="username"
               type="text"
               placeholder="Your username"
               label="Username"
               required />
             <b-form-input
               v-model="password"
+              name="password"
               type="password"
               placeholder="Your password"
               label="Password"
