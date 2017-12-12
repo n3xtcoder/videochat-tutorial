@@ -31,6 +31,7 @@
 
 <script>
 import axios from 'axios';
+import router from '@/router';
 
 const getErrorMessage = (response) => {
   const msg = (response && response.data && response.data.message) || 'Unknown Error';
@@ -52,8 +53,9 @@ export default {
       axios.post('/api/user', {
         username: this.username,
         password: this.password,
-      }).then((data) => {
-        console.log(data);
+      }).then((response) => {
+        localStorage.setItem('jwt', response.data.jwt);
+        router.push('/');
       }).catch((error) => {
         this.error = getErrorMessage(error.response);
       });
