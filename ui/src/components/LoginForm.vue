@@ -7,7 +7,7 @@
           <h2>Login</h2>
           <b-form @submit.prevent="login">
             <b-alert variant="danger" dismissible :show="error !== ''" @dismissed="error = ''">
-              {{ error }}
+              {{ error | titleCase }}
             </b-alert>
             <b-form-input
               v-model="username"
@@ -36,6 +36,11 @@
 import auth from '@/auth';
 import router from '@/router';
 
+const titleCase =  (text) => text.replace(
+  /\w*/g,
+  (match) => (match.charAt(0).toUpperCase() + match.substr(1).toLowerCase())
+);
+
 export default {
   name: 'Login',
   data() {
@@ -51,6 +56,9 @@ export default {
         .then(() => { router.push('/'); })
         .catch((error) => { this.error = error; });
     },
+  },
+  filters: {
+    titleCase,
   },
 };
 </script>
