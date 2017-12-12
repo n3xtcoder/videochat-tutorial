@@ -6,6 +6,9 @@
           <h1>VideoChat Tutorial</h1>
           <h2>Login</h2>
           <b-form @submit.prevent="login">
+            <b-alert variant="danger" dismissible :show="error" @dismissed="error = null">
+              {{ error }}
+            </b-alert>
             <b-form-input
               v-model="username"
               type="text"
@@ -29,12 +32,19 @@
 <script>
 import axios from 'axios';
 
+const getErrorMessage = (response) => {
+  const msg = (response && response.data && response.data.message) || 'Unknown Error';
+  const status = response.status;
+  return `${msg} (${status})`;
+};
+
 export default {
   name: 'Login',
   data() {
     return {
       username: '',
       password: '',
+      error: null,  // b-alert show won't work well with empty string
     };
   },
   methods: {
@@ -45,8 +55,7 @@ export default {
       }).then((data) => {
         console.log(data);
       }).catch((error) => {
-        const { response } = error;
-        console.error(response);
+        this.error = getErrorMessage(error.response);
       });
     },
   },
