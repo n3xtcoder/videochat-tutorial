@@ -26,5 +26,12 @@ export default new Router({
         .then(() => { next({ path: '/' }); })
         .catch(() => next()),
     },
+    {
+      path: '/logout',
+      redirect() {
+        auth.jwt.remove();
+        return '/login';
+      },
+    },
   ],
 });

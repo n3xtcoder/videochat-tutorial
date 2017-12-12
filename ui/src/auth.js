@@ -49,4 +49,5 @@ function assertAuthenticated() {
 export default {
   assertAuthenticated,
   authenticate,
+  jwt,
 };
