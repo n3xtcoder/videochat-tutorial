@@ -1,50 +1,50 @@
 <template>
-  <b-container class="video">
+  <div class="video">
     <br>
-    <b-container>
+    <b-container fluid>
       <b-row>
-        <b-col lg="12">
-          <div ref="remoteMedia"></div>
+        <b-col lg="4" align-self="start">
+          <div id="local-media" ref="localMedia"></div>
+          <b-button size="sm" v-show="previewTrack === null" variant="primary" v-on:click="startPreview">Preview My Camera</b-button>
+          <b-button size="sm" v-show="previewTrack !== null" variant="danger" v-on:click="stopPreview">Stop preview</b-button>
+        </b-col>
+        <b-col lg="8" align-self="end">
+          <div id="remote-media" ref="remoteMedia"></div>
         </b-col>
       </b-row>
     </b-container>
+    <br>
     <b-container>
-      <b-container>
-        <b-row>
-          <b-col lg="12">
-            <p>Camera preview</p>
-            <div ref="localMedia"></div>
-            <b-button size="sm" v-show="previewTrack === null" variant="primary" v-on:click="startPreview">Preview My Camera</b-button>
-            <b-button size="sm" v-show="previewTrack !== null" variant="danger" v-on:click="stopPreview">Stop preview</b-button>
-          </b-col>
-        </b-row>
-      </b-container>
-      <br>
-      <b-container>
-        <b-alert variant="danger"
-                 dismissible
-                 :show="alertText !== ''"
-                 @dismissed="alertText = ''">
-          {{ alertText }}
-        </b-alert>
-        <b-row>
-          <b-col lg="3">
-            <b-form-select v-model="identity" :options="options" class="mb-3"></b-form-select>
-          </b-col>
-          <b-col lg="3">
-            <b-form-input type="text" v-model="roomName" placeholder="Enter a room name"></b-form-input>
-          </b-col>
-          <b-col lg="3">
-            <b-button size="sm" v-show="room === null" variant="success" v-on:click="joinRoom">Join Room</b-button>
-            <b-button size="sm" v-show="room !== null" variant="danger" v-on:click="leaveRoom">Leave Room</b-button>
-          </b-col>
-        </b-row>
-        </b-row>
-          <div>Selected identity: <strong>{{ identity }}</strong></div>
-          <div>Selected room: <strong>{{ roomName }}</strong></div>
-      </b-container>
+      <b-row>
+        <b-col>
+          <b-alert variant="danger"
+                   dismissible
+                   :show="alertText !== ''"
+                   @dismissed="alertText = ''">
+            {{ alertText }}
+          </b-alert>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col lg="3">
+          <b-form-select v-model="identity" :options="options" class="mb-3"></b-form-select>
+        </b-col>
+        <b-col lg="3">
+          <b-form-input type="text" v-model="roomName" placeholder="Enter a room name"></b-form-input>
+        </b-col>
+        <b-col lg="3">
+          <b-button size="sm" v-show="room === null" variant="success" v-on:click="joinRoom">Join Room</b-button>
+          <b-button size="sm" v-show="room !== null" variant="danger" v-on:click="leaveRoom">Leave Room</b-button>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
+          <p>Selected identity: <strong>{{ identity }}</strong></p>
+          <p>Selected room: <strong>{{ roomName }}</strong></p>
+        </b-col>
+      </b-row>
     </b-container>
-  </b-container>
+  </div>
 </template>
 
 <script>
@@ -63,6 +63,7 @@ export default {
       },
       videoInput: null,
       room: null,
+      participant: null,
       previewTrack: null,
       options: [
         { value: null, text: 'Please select an identity' },
@@ -71,14 +72,6 @@ export default {
       ],
       alertText: '',
     };
-  },
-  mounted() {
-    // Detect video input device
-    navigator.mediaDevices.enumerateDevices().then((devices) => {
-      this.videoInput = devices.find(device => device.kind === 'videoinput');
-    }, (error) => {
-      this.alertText = `Error retrieving camera: "${error}"`;
-    });
   },
   watch: {
     identity(newIdentity) {  // eslint-disable-line object-shorthand
@@ -103,12 +96,10 @@ export default {
      * @return {undefined}
      */
     startPreview() {
-      Video.createLocalVideoTrack({
-        video: { deviceId: this.videoInput.deviceId },
-      }).then((track) => {
-        console.log(`Previewing camera "${track.mediaStreamTrack.label}"`);
+      Video.createLocalVideoTrack().then((track) => {
+        console.log(`Preview camera "${track.mediaStreamTrack.label}"`);
         this.previewTrack = track;
-        this.$refs.localMedia.appendChild(this.previewTrack.attach());
+        this.attachTrack(this.previewTrack, this.$refs.localMedia);
       }, (error) => {
         this.alertText = `Error previewing camera: "${error.message}"`;
       });
@@ -163,56 +154,67 @@ export default {
       console.log(`Connected to room "${this.roomName}"`);
       this.room = room;
 
-      // If video is in preview, attach the track
-      console.log(this.$refs.localMedia);
-      if (!this.$refs.localMedia.querySelector('video')) {
-        this.attachParticipantTracks(this.room.localParticipant, this.$refs.localMedia);
+      if (this.previewTrack === null) {
+        // Start preview on connection
+        this.startPreview();
       }
 
-      // Attach the tracks of the room's participants
-      this.room.participants.forEach((participant) => {
-        this.attachParticipantTracks(participant, this.$refs.remoteMedia);
-      });
-
-      // Log event when a participant joins the room
-      this.room.on('participantConnected', (participant) => {
-        console.log(`"${participant.identity}" is joining`);
-      });
-
-      // Attach track to DOM when it is added by a participant
-      this.room.on('trackAdded', (track) => {
-        this.$refs.remoteMedia.appendChild(track.attach());
-      });
-
-      // Detach track from the DOM when it is removed by a participant
-      this.room.on('trackRemoved', this.detachTrack);
-
-      // Detach all tracks from a participant that leaves the room
-      room.on('participantDisconnected', (participant) => {
-        this.detachParticipantTracks(participant);
-      });
-
-      // Detach tracks from all participants when the local participant leaves the room
-      room.on('disconnected', () => {
-        if (this.previewTrack) {
-          this.stopPreview();
+      if (room.participants.size > 0) {
+        // Attach other participant tracks (if already in the room)
+        if (room.participants.size > 1) {
+          this.alertText = `Detected ${room.participants.length} other participants, only 1 is accepted`;
         }
-        this.detachParticipantTracks(this.room.localParticipant);
-        this.room.participants.forEach(this.detachParticipantTracks);
+        this.participantConnected(room.participants.values().next().value);
+      }
+
+      // Attach all tracks from a participant that joins the room
+      this.room.on('participantConnected', this.participantConnected);
+      // Detach all tracks from a participant that leaves the room
+      this.room.on('participantDisconnected', this.participantDisconnected);
+      // Detach tracks from all participants when the local participant leaves the room
+      this.room.once('disconnected', () => {
+        if (this.participant !== null) {
+          this.participantDisconnected(this.participant);
+        }
         this.room = null;
       });
     },
 
     /**
-     * Attaches the participant's Tracks to the given container.
-     * @param {object} participant The video participant.
-     * @param {object} container The video container.
+     * Attaches all tracks from a connected participant.
+     * @param {object} participant The remote participant in the room.
      * @return {undefined}
      */
-    attachParticipantTracks(participant, container) {
-      Array.from(participant.tracks.values()).forEach((track) => {
-        container.appendChild(track.attach());
-      });
+    participantConnected(participant) {
+      console.log(`"${participant.identity}" is connected`);
+      this.participant = participant;
+      // Attach track to DOM when it is added by a participant
+      participant.on('trackAdded', track => this.attachTrack(track, this.$refs.remoteMedia));
+      // Attach the tracks of the other room participant
+      participant.tracks.forEach(track => this.attachTrack(track, this.$refs.remoteMedia));
+      // Detach track from the DOM when it is removed by a participant
+      participant.on('trackRemoved', this.detachTrack);
+    },
+
+    /**
+     * Detaches all tracks from a disconnected participant.
+     * @param {object} participant The remote participant in the room.
+     * @return {undefined}
+     */
+    participantDisconnected(participant) {
+      console.log(`"${participant.identity}" is disconnected`);
+      participant.tracks.forEach(this.detachTrack);
+      this.participant = null;
+    },
+
+    /**
+     * Attaches the track.
+     * @param {object} track The video track.
+     * @param {object} container The DOM element.
+     * @return {undefined}
+     */
+    attachTrack(track, container) {
+      container.appendChild(track.attach());
     },
 
     /**
@@ -221,24 +223,21 @@ export default {
      * @return {undefined}
      */
     detachTrack(track) {
-      track.detach().forEach((detachedElement) => {
-        detachedElement.remove();
-      });
-    },
-
-    /**
-     * Detaches the participant's tracks
-     * @param {object} participant The video participant.
-     * @return {undefined}
-     */
-    detachParticipantTracks(participant) {
-      Array.from(participant.tracks.values()).forEach((track) => {
-        this.detachTrack(track);
-      });
+      track.detach().forEach(element => element.remove());
     },
   },
 };
 </script>
 
 <style>
+div#remote-media video {
+  max-width: 100%;
+  max-height: 100%;
+  align: right;
+}
+
+div#local-media video {
+  max-width: 100%;
+  max-height: 100%;
+}
 </style>
