@@ -31,15 +31,10 @@
   </div>
 </template>
 
-<script>
-import axios from 'axios';
-import router from '@/router';
 
-const getErrorMessage = (response) => {
-  const msg = (response && response.data && response.data.message) || 'Unknown Error';
-  const status = response.status;
-  return `${msg} (${status})`;
-};
+<script>
+import auth from '@/auth';
+import router from '@/router';
 
 export default {
   name: 'Login',
@@ -52,19 +47,14 @@ export default {
   },
   methods: {
     login() {
-      axios.post('/api/user', {
-        username: this.username,
-        password: this.password,
-      }).then((response) => {
-        localStorage.setItem('jwt', response.data.jwt);
-        router.push('/');
-      }).catch((error) => {
-        this.error = getErrorMessage(error.response);
-      });
+      auth.authenticate(this.username, this.password)
+        .then(() => { router.push('/'); })
+        .catch((error) => { this.error = error; });
     },
   },
 };
 </script>
+
 
 <style scoped>
 form > * {
