@@ -36,9 +36,9 @@
 import auth from '@/auth';
 import router from '@/router';
 
-const titleCase =  (text) => text.replace(
+const titleCase = text => text.replace(
   /\w*/g,
-  (match) => (match.charAt(0).toUpperCase() + match.substr(1).toLowerCase())
+  match => (match.charAt(0).toUpperCase() + match.substr(1).toLowerCase()),
 );
 
 export default {

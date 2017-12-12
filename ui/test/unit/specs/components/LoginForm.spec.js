@@ -1,5 +1,4 @@
-import Vue from 'vue';
-import { mount } from 'vue-test-utils'
+import { mount } from 'vue-test-utils';
 
 import LoginForm from '@/components/LoginForm';
 
@@ -21,7 +20,7 @@ describe('LoginForm.vue', () => {
   });
 
   it('contains input element for the password', () => {
-    const passwordField = wrapper.find('b-form-input[name="password"]')
+    const passwordField = wrapper.find('b-form-input[name="password"]');
     expect(passwordField.exists()).toBe(true);
     expect(passwordField.hasAttribute('type', 'password')).toBe(true);
   });

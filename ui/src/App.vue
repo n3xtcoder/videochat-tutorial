@@ -29,8 +29,8 @@ export default {
     $route() {
       // We don't validate against the server, we just check if it's there.
       this.loggedIn = auth.jwt.get() !== null;
-    }
-  }
+    },
+  },
 };
 </script>
 
