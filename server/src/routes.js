@@ -1,10 +1,14 @@
-const { passport, authenticate, isAuthenticated } = require('./auth');
+const {
+  passport, authenticate, isAuthenticated, userInfo,
+} = require('./auth');
 
 const { AccessToken } = require('twilio').jwt;
 
-const { VideoGrant } = AccessToken;
+const { VideoGrant, ChatGrant } = AccessToken;
 
-const { TWILIO_ACCOUNT_SID, TWILIO_API_SID, TWILIO_API_SECRET } = process.env;
+const {
+  TWILIO_ACCOUNT_SID, TWILIO_API_SID, TWILIO_API_SECRET, TWILIO_CHAT_SERVICE_SID,
+} = process.env;
 
 /**
  * Generate a Twilio Access Token for the provided identity
@@ -13,18 +17,28 @@ const { TWILIO_ACCOUNT_SID, TWILIO_API_SID, TWILIO_API_SECRET } = process.env;
  * @return{undefined}
  */
 function createToken(req, res) {
-  console.log(`creating twillio token... for user ${req.user.username}"`);
+  const identity = req.user.username;
+  console.log(`creating twillio token for identity "${identity}"`);
 
   // Create an access token which we will sign and return to the client,
   // containing the grant we just created.
   const token = new AccessToken(TWILIO_ACCOUNT_SID, TWILIO_API_SID, TWILIO_API_SECRET);
 
   // Assign the generated identity to the token.
-  token.identity = req.user.username;
+  token.identity = identity;
 
   // Grant the access token Twilio Video capabilities.
-  const grant = new VideoGrant();
-  token.addGrant(grant);
+  const videoGrant = new VideoGrant();
+  token.addGrant(videoGrant);
+
+  // Grant the access token Twilio Chat capabilities.
+  if (TWILIO_CHAT_SERVICE_SID) {
+    const chatGrant = new ChatGrant({
+      serviceSid: TWILIO_CHAT_SERVICE_SID,
+      endpointId: `minddoc-videochat:${identity}:browser`,
+    });
+    token.addGrant(chatGrant);
+  }
 
   // Serialize the token to a JWT string and include it in a JSON response.
   res.status(200).send({
@@ -36,5 +50,6 @@ function createToken(req, res) {
 module.exports = function (app) {
   app.use(passport.initialize());
   app.post('/user', authenticate);
+  app.get('/info', isAuthenticated, userInfo);
   app.get('/token', isAuthenticated, createToken);
 };
