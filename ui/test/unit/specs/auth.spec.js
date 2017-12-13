@@ -1,10 +1,10 @@
+import axios from 'axios';
+import auth from '@/auth';
+
 jest.mock('axios', () => ({
   post: jest.fn(),
   get: jest.fn(),
 }));
-
-import axios from 'axios';
-import auth from '@/auth';
 
 const username = 'username';
 const password = 'password';
@@ -49,7 +49,7 @@ describe('auth.js', () => {
   });
 
   describe('assertAuthenticated', () => {
-    beforeEach(() => { auth.jwt.remove(); })
+    beforeEach(() => { auth.jwt.remove(); });
 
     it('throws if jwt storage is empty', async () => {
       await expect(auth.assertAuthenticated()).rejects.toEqual('No JWT available.');
