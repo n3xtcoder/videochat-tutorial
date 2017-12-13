@@ -13,6 +13,7 @@ app.use(bodyParser.json());
 // Routes for our API
 const routes = require('./src/routes')(app); // eslint-disable-line no-unused-vars
 
+// Start server
 app.listen(app.get('port'), () => {
   console.log(`Server started: http://localhost:${app.get('port')}/`);
 });
