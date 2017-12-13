@@ -23,6 +23,6 @@ module.exports.isAuthenticated = passport.authenticate('jwt', { session: false }
  * @param{object} user the logged user object
  * @return{string} the signed jwt token
  */
-module.exports.isAuthenticated = function signJwt(user) {
+module.exports.signJwt = function signJwt(user) {
   return jwt.sign(user, apiSecret, { expiresIn: jwtExpiration });
 };
