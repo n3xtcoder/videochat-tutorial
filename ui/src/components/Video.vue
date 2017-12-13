@@ -25,21 +25,17 @@
           </b-alert>
         </b-col>
       </b-row>
-      <b-row>
-        <b-col lg="3">
-          <b-form-select v-model="identity" :options="options" class="mb-3"></b-form-select>
-        </b-col>
+      <b-row align-self="center" align-v="center">
         <b-col lg="3">
           <b-form-input type="text" v-model="roomName" placeholder="Enter a room name"></b-form-input>
         </b-col>
-        <b-col lg="3">
+        <b-col lg="1">
           <b-button size="sm" v-show="room === null" variant="success" v-on:click="joinRoom">Join Room</b-button>
           <b-button size="sm" v-show="room !== null" variant="danger" v-on:click="leaveRoom">Leave Room</b-button>
         </b-col>
       </b-row>
       <b-row>
         <b-col>
-          <p>Selected identity: <strong>{{ identity }}</strong></p>
           <p>Selected room: <strong>{{ roomName }}</strong></p>
         </b-col>
       </b-row>
@@ -48,7 +44,7 @@
 </template>
 
 <script>
-import * as axios from 'axios';
+import auth from '@/auth';
 import Video from 'twilio-video';
 
 export default {
@@ -56,12 +52,6 @@ export default {
   data() {
     return {
       roomName: '',
-      identity: null,
-      tokenCache: {
-        doctor: '',
-        patient: '',
-      },
-      videoInput: null,
       room: null,
       participant: null,
       previewTrack: null,
@@ -72,21 +62,6 @@ export default {
       ],
       alertText: '',
     };
-  },
-  watch: {
-    identity(newIdentity) {  // eslint-disable-line object-shorthand
-      if (this.tokenCache[newIdentity] === '') {
-        // Retrieve Twilio token from the backend
-        axios.get('/api/token', { params: { identity: newIdentity }}).then((res) => { // eslint-disable-line
-          this.tokenCache[newIdentity] = res.data.token;
-          console.log(`Retrieved token for "${newIdentity}"`);
-        }, (error) => {
-          this.alertText = `Unable to retrieve access token for "${newIdentity}": "${error.message}"`;
-        });
-      } else {
-        console.log(`"${newIdentity}" has already a cached token`);
-      }
-    },
   },
   methods: {
     // Public methods
@@ -123,15 +98,24 @@ export default {
     joinRoom() {
       if (this.roomName === '') {
         this.alertText = 'Please enter a room name';
-      } else if (this.identity === null) {
-        this.alertText = 'Please select an identity';
       } else {
-        const connectOptions = { name: this.roomName };
-        Video.connect(this.tokenCache[this.identity], connectOptions).then(
-          this.roomJoined,
-          (error) => { this.alertText = `Could not connect to room "${this.roomName}": "${error.message}"`; },
+        auth.assertAuthenticated().then(
+          this.connectToTwilio,
+          (error) => { this.alertText = `Could not retrieve Twilio token from the backend: ${error.message}`; },
         );
       }
+    },
+
+    /**
+     * Connects to the specified video room using an already generated twilio token.
+     * @param {object} res The backend /api/token HTTP response.
+     * @return {undefined}
+     */
+    connectToTwilio(res) {
+      Video.connect(res.data.token, { name: this.roomName }).then(
+        this.roomJoined,
+        (error) => { this.alertText = `Could not connect to room "${this.roomName}": "${error.message}"`; },
+      );
     },
 
     /**
