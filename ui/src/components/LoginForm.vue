@@ -52,9 +52,12 @@ export default {
   },
   methods: {
     login() {
-      auth.authenticate(this.username, this.password)
-        .then(() => { router.push('/'); })
-        .catch((error) => { this.error = error; });
+      if (this.username && this.password) {
+        return auth.authenticate(this.username, this.password)
+          .then(() => { router.push('/'); })
+          .catch((error) => { this.error = error; });
+      }
+      return null;
     },
   },
   filters: {

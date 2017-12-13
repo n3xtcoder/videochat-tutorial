@@ -4,7 +4,7 @@ const jwt = (() => {
   let value = null;
 
   return {
-    get() {  // TODO: use it later in router
+    get() {
       return value || localStorage.getItem('jwt');
     },
     set(j) {
