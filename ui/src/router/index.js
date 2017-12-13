@@ -38,6 +38,9 @@ export default new Router({
       path: '/video',
       name: 'Video',
       component: Video,
+      beforeEnter: (to, from, next) => auth.assertAuthenticated()
+        .then(next)
+        .catch(() => { next({ path: '/login' }); }),
     },
   ],
 });
