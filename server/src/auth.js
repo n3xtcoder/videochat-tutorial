@@ -49,3 +49,14 @@ module.exports.authenticate = function authenticate(req, res) {
     });
   });
 };
+
+module.exports.userInfo = function userInfo(req, res) {
+  const expiresIn = new Date(req.user.exp * 1000);
+  return res.status(200).send({
+    id: req.user.id,
+    username: req.user.username,
+    displayName: req.user.displayName,
+    role: req.user.role,
+    expiresIn: expiresIn.toISOString(),
+  });
+};
