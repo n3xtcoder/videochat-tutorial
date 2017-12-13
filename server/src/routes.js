@@ -1,6 +1,6 @@
 const { passport, isAuthenticated, signJwt } = require('./auth');
 const users = require('./users');
-const createToken = require('./twilio');
+const { createToken } = require('./twilio');
 
 /**
  * POSTs a username and password for generating a JWT token
@@ -66,7 +66,7 @@ function getUserInfo(req, res) {
  */
 function getToken(req, res) {
   const identity = req.user.username;
-  console.log(`creating twillio token for identity "${identity}"`);
+  console.log(`creating twilio token for identity "${identity}"`);
   const token = createToken(identity);
   // Serialize the token to a JWT string and include it in a JSON response.
   return res.status(200).send({
