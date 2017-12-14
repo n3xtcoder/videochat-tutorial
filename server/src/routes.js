@@ -11,15 +11,9 @@ const { createToken } = require('./twilio');
 function authenticate(req, res) {
   const { username, password } = req.body;
 
-  users.findByUsername(username, (err, user) => {
-    // handle errors
-    if (err) {
-      console.error(err);
-      return res.status(400).send({
-        message: 'bad request',
-      });
-    }
+  // TODO: handle bad request
 
+  users.findByUsername(username, user => {
     // not found
     if (!user) {
       return res.status(404).send({
