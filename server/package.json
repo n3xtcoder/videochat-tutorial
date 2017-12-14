@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint --ext .js --ignore-path .gitignore .",
     "start": "node index.js",
-    "test": "jest --config test/jest.conf.js"
+    "test": "jest"
   },
   "dependencies": {
     "body-parser": "1.18.2",
