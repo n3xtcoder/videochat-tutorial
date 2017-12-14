@@ -4,39 +4,57 @@ import Video from '@/components/Video';
 
 describe('Video.vue', () => {
   let w;
-  const mediaQuery = 'div.video > div.container-fluid > div.row';
-  const controlQuery = 'div.video > div.container';
 
   beforeEach(() => {
     w = mount(Video);
   });
 
-  it('contains local media elements', () => {
-    console.log(w.html);
-    const localMediaQuery = `${mediaQuery} > div.col-lg-4.align-self-start`;
-    expect(w.contains(`${localMediaQuery} > div#local-media`)).toBe(true);
-    const startPreviewBtn = w.find(`${localMediaQuery} > button.btn.btn-primary.btn-sm`);
-    expect(startPreviewBtn.text()).to.equal('Preview My Camera');
-    const stopPreviewBtn = w.find(`${localMediaQuery} > button.btn.btn-danger.btn-sm`);
-    expect(stopPreviewBtn.text()).to.equal('Stop preview');
-    expect(stopPreviewBtn.hasAttribute('style', 'display: none;')).toBe(true);
+  it('contains local media element', () => {
+    expect(w.contains('div#local-media')).toBe(true);
   });
 
-  it('contains remote media elements', () => {
-    expect(w.contains(`${mediaQuery} > div.col-lg-8.align-self-end > div#local-media`)).toBe(true);
+  it('contains buttons', () => {
+    const buttons = w.findAll('b-button');
+
+    const startPreviewBtn = buttons.at(0);
+    expect(startPreviewBtn.text()).toEqual('Preview My Camera');
+    expect(startPreviewBtn.hasAttribute('size', 'sm')).toBe(true);
+    expect(startPreviewBtn.hasAttribute('variant', 'primary')).toBe(true);
+
+    const stopPreviewBtn = buttons.at(1);
+    expect(stopPreviewBtn.text()).toEqual('Stop preview');
+    expect(stopPreviewBtn.hasAttribute('size', 'sm')).toBe(true);
+    expect(stopPreviewBtn.hasAttribute('variant', 'danger')).toBe(true);
+
+    const joinRoomBtn = buttons.at(2);
+    expect(joinRoomBtn.text()).toEqual('Join');
+    expect(joinRoomBtn.hasAttribute('size', 'sm')).toBe(true);
+    expect(joinRoomBtn.hasAttribute('variant', 'success')).toBe(true);
+
+    const leaveRoomBtn = buttons.at(3);
+    expect(leaveRoomBtn.text()).toEqual('Leave');
+    expect(leaveRoomBtn.hasAttribute('size', 'sm')).toBe(true);
+    expect(leaveRoomBtn.hasAttribute('variant', 'danger')).toBe(true);
   });
 
-  it('renders alerts', () => {
-    const alertQuery = `${controlQuery} > div.row > div.col > div.alert.alert-danger.alert-dismissible`;
-    const expectedAlertText = 'Foo Alert';
-    expect(w.contains(alertQuery)).toBe(false);
-
-    w.setData({ alert: expectedAlertText });
-    const alertElem = w.find(alertQuery);
-    expect(alertElem.text()).to.equal(expectedAlertText);
-    expect(alertElem.hasAttribute('aria-atomic', 'true')).toBe(true);
-    expect(alertElem.hasAttribute('aria-live', 'polite')).toBe(true);
-    expect(alertElem.hasAttribute('role', 'alert')).toBe(true);
+  it('contains remote media element', () => {
+    expect(w.contains('div#remote-media')).toBe(true);
   });
 
+  it('contains alert', () => {
+    const alert = w.find('b-alert');
+    expect(alert.text()).toEqual('');
+    expect(alert.hasAttribute('variant', 'danger')).toBe(true);
+    expect(alert.hasAttribute('dismissible', '')).toBe(true);
+  });
+
+  it('contains chat messages element', () => {
+    expect(w.contains('div#messages')).toBe(true);
+  });
+
+  it('contains chat input element', () => {
+    const chatInput = w.find('input#chat-input');
+    expect(chatInput.hasAttribute('type', 'text')).toBe(true);
+    expect(chatInput.hasAttribute('placeholder', 'say anything')).toBe(true);
+  });
 });

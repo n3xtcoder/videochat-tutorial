@@ -5,8 +5,8 @@
       <b-row>
         <b-col lg="4" align-self="center" class="text-center">
           <div id="local-media" ref="localMedia"></div>
-          <b-button size="sm" v-show="previewTrack === null" variant="primary" v-on:click="startPreview">Preview My Camera</b-button>
-          <b-button size="sm" v-show="previewTrack !== null" variant="danger" v-on:click="stopPreview">Stop preview</b-button>
+          <b-button size="sm" v-show="previewTrack === null" variant="primary" @click="startPreview">Preview My Camera</b-button>
+          <b-button size="sm" v-show="previewTrack !== null" variant="danger" @click="stopPreview">Stop preview</b-button>
         </b-col>
         <b-col lg="8" align-self="end" class="text-center">
           <div id="remote-media" ref="remoteMedia"></div>
