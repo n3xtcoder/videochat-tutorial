@@ -9,6 +9,7 @@ cache:
 
 before_install:
   - cd server
+  - cp .env.example .env
 
 install:
   - npm install
