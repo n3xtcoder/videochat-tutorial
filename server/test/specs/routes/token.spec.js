@@ -1,13 +1,13 @@
-const supertest = require('supertest');
-const app = require('../../../src/app');
-const { mockTokenJwt } = require('../../utils');
+import supertest from 'supertest';
+import app from '../../../src/app';
+import { mockTokenJwt } from '../../utils';
 // to be mocked
-const twilio = require('../../../src/twilio');
-const auth = require('../../../src/auth');
+import twilio from '../../../src/twilio';
+import auth from '../../../src/auth';
 
 const request = supertest(app);
 
-// We don't want to test passport library  // TODO: mock passport directly.
+// We don't want to test passport library  // TODO: should mock passport directly.
 jest.mock('../../../src/auth', () => ({
   isAuthenticated: jest.fn(),
   passport: {
