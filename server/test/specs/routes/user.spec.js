@@ -68,4 +68,4 @@ describe('/user', () => {
     expect(response.statusCode).toBe(400);
     expect(typeof response.body.message).toEqual('string');
   });
-})
+});
