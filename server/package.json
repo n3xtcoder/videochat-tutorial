@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint --ext .js --ignore-path .gitignore .",
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "jest  --config test/jest.conf.js"
   },
   "dependencies": {
     "body-parser": "1.18.2",
@@ -17,11 +18,24 @@
     "twilio": "^3.7.0"
   },
   "devDependencies": {
-    "babel-eslint": "^8.0.2",
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "^7.1.1",
+    "babel-core": "^6.22.1",
+    "babel-jest": "^21.0.2",
+    "babel-loader": "^7.1.1",
+    "babel-plugin-dynamic-import-node": "^1.2.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.22.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-stage-2": "^6.22.0",
+    "babel-register": "^6.22.0",
     "eslint": "^4.10.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
-    "eslint-plugin-react": "^7.4.0"
+    "eslint-plugin-react": "^7.4.0",
+    "jest": "^21.2.1",
+    "superagent": "^3.8.2",
+    "supertest": "^3.0.0"
   }
 }
