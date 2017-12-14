@@ -1,6 +1,6 @@
-const supertest = require('supertest');
-const app = require('../../../src/app');
-const { jwtRegex, mockTokenJwt } = require('../../utils');
+import supertest from 'supertest';
+import app from '../../../src/app';
+import { jwtRegex, mockTokenJwt } from '../../utils';
 
 const request = supertest(app);
 
