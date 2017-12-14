@@ -1,6 +1,5 @@
 import supertest from 'supertest';
 import app from '../../../src/app';
-import { mockTokenJwt } from '../../utils';
 import auth from '../../../src/auth';
 
 const request = supertest(app);
@@ -14,7 +13,7 @@ jest.mock('../../../src/auth', () => ({
   },
 }));
 
-const mockUser =   {
+const mockUser = {
   id: 1,
   username: 'doctor',
   password: 'password',
@@ -37,13 +36,12 @@ describe('/info', () => {
     expect(response.statusCode).toBe(200);
     const expectedKeys = ['id', 'username', 'displayName', 'expiresIn', 'role'];
     const receivedUser = response.body;
-    const { id, username, displayName, role, expiresIn } = receivedUser;
     expect(Object.keys(receivedUser).sort()).toEqual(expectedKeys.sort());
-    expect(id).toEqual(mockUser.id);
-    expect(username).toEqual(mockUser.username);
-    expect(displayName).toEqual(mockUser.displayName);
-    expect(role).toEqual(mockUser.role);
-    expect(expiresIn).toEqual(expect.stringMatching(dateRegex));
-    expect(expiresIn).toEqual('1970-01-01T00:00:01.000Z');
+    expect(receivedUser.id).toEqual(mockUser.id);
+    expect(receivedUser.username).toEqual(mockUser.username);
+    expect(receivedUser.displayName).toEqual(mockUser.displayName);
+    expect(receivedUser.role).toEqual(mockUser.role);
+    expect(receivedUser.expiresIn).toEqual(expect.stringMatching(dateRegex));
+    expect(receivedUser.expiresIn).toEqual('1970-01-01T00:00:01.000Z');
   });
 });
