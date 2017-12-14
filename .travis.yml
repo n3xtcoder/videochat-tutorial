@@ -1,0 +1,15 @@
+language: node_js
+
+cache:
+  directories:
+    - "server/node_modules"
+
+before_install:
+  - cd server
+
+install:
+  - npm install
+
+script:
+  - npm run lint
+  - npm test
