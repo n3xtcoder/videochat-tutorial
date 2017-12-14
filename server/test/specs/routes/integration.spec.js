@@ -1,14 +1,16 @@
 const supertest = require('supertest');
 const app = require('../../../src/app');
 const { jwtRegex, mockTokenJwt } = require('../../utils');
+
 const request = supertest(app);
 
 // Don't create tokens with Twilio for unit tests.
-const twilio = require('../../../src/twilio');
-jest.mock('../../../src/twilio', () => ({ createToken: jest.fn((identity) => ({
-  identity,
-  toJwt: () => mockTokenJwt
-}))}));
+jest.mock('../../../src/twilio', () => ({
+  createToken: jest.fn(identity => ({
+    identity,
+    toJwt: () => mockTokenJwt,
+  })),
+}));
 
 describe('Integration?', () => {
   // TODO: Can split this up?
@@ -21,7 +23,7 @@ describe('Integration?', () => {
       .send({ username, password });
     expect(responseUser.statusCode).toBe(200);
 
-    const jwt = responseUser.body.jwt;
+    const { jwt } = responseUser.body;
 
     const responseInfo = await request
       .get('/info')

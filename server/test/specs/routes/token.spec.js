@@ -1,10 +1,11 @@
 const supertest = require('supertest');
 const app = require('../../../src/app');
-const request = supertest(app);
 const { mockTokenJwt } = require('../../utils');
 // to be mocked
 const twilio = require('../../../src/twilio');
 const auth = require('../../../src/auth');
+
+const request = supertest(app);
 
 // We don't want to test passport library  // TODO: mock passport directly.
 jest.mock('../../../src/auth', () => ({
@@ -20,7 +21,7 @@ jest.mock('../../../src/twilio', () => ({ createToken: jest.fn() }));
 const username = 'anybody';
 
 const appendUserToRequest = (req, _, next) => { req.user = { username }; next(); };
-const mockCreateToken = (identity) => ({ identity, toJwt: () => mockTokenJwt });
+const mockCreateToken = identity => ({ identity, toJwt: () => mockTokenJwt });
 
 describe('/token', () => {
   it('returns 200 with the identity and token in the response', async () => {
