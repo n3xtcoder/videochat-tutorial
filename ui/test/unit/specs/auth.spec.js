@@ -55,12 +55,12 @@ describe('auth.js', () => {
       await expect(auth.assertAuthenticated()).rejects.toEqual('No JWT available.');
     });
 
-    it('makes a GET request to /api/token with the JWT token in the auth header ' +
+    it('makes a GET request to /api/info with the JWT token in the auth header ' +
        'when jwt storage contains jwt.', async () => {
       auth.jwt.set('jwttok3n');
       axios.get.mockImplementation(() => Promise.resolve());
       await auth.assertAuthenticated();
-      expect(axios.get).toBeCalledWith('/api/token', { headers: { Authorization: 'Bearer jwttok3n' } });
+      expect(axios.get).toBeCalledWith('/api/info', { headers: { Authorization: 'Bearer jwttok3n' } });
     });
 
     it('resolves if GET request is successful', async () => {
