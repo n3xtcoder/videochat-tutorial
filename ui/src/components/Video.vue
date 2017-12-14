@@ -255,7 +255,6 @@ export default {
       });
       // Listen for new messages sent to the channel
       this.chatRoom.on('messageAdded', (message) => {
-        console.log(message);
         this.writeMessage(message.body, message.author);
       });
     },
@@ -266,11 +265,8 @@ export default {
       this.chatClient.createChannel({
         uniqueName: this.roomName,
         friendlyName: `Chat room for "${this.roomName}" video session`,
-      }).then((channel) => {
-        this.writeMessage(`"${this.identity}" has created channel "${this.roomName}"`, 'info');
-        this.chatRoom = channel;
-        this.setupChatRoom();
-      });
+      }).then(this.setupChatRoom);
+      this.writeMessage(`"${this.identity}" has created channel "${this.roomName}"`, 'info');
     },
 
     writeMessage(message, from) {
