@@ -12,9 +12,9 @@ exports.findByUsername = function findByUsername(username, done) {
     for (const i in records) { // eslint-disable-line guard-for-in,no-restricted-syntax
       const item = records[i];
       if (item.username === username) {
-        return done(null, item);
+        return done(item);
       }
     }
-    return done(null, null);
+    return done(null);
   });
 };
