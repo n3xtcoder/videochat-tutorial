@@ -1,7 +1,8 @@
 const supertest = require('supertest');
 const app = require('../../../src/app');
 const request = supertest(app);
-// mocks
+const { mockTokenJwt } = require('../../utils');
+// to be mocked
 const twilio = require('../../../src/twilio');
 const auth = require('../../../src/auth');
 
@@ -16,12 +17,10 @@ jest.mock('../../../src/auth', () => ({
 // Don't create tokens with Twilio for unit tests.
 jest.mock('../../../src/twilio', () => ({ createToken: jest.fn() }));
 
-
-const jwtExample = 'eyxxxxxiOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJwYXRpZW50IiwicGFzc3dvcmQiOiJwYXNzd29yZCIsImRpc3BsYXlOYW1lIjoiSG9tZXIgU2ltcHNvbiIsInJvbGUiOiJwYXRpZW50IiwiaWF0IjoxNTA4NzYxNDA0LCJleHAiOjE1MDg4NDc4MDR9.VDIbyyDpV8_g_KjWQw4H6UDPpvSuYjpjxM1hZ-ukpZ0';
 const username = 'anybody';
 
 const appendUserToRequest = (req, _, next) => { req.user = { username }; next(); };
-const mockCreateToken = (identity) => ({ identity, toJwt: () => jwtExample });
+const mockCreateToken = (identity) => ({ identity, toJwt: () => mockTokenJwt });
 
 describe('/token', () => {
   it('returns 200 with the identity and token in the response', async () => {
@@ -34,7 +33,7 @@ describe('/token', () => {
     expect(twilio.createToken).toBeCalledWith(username);
 
     expect(response.statusCode).toBe(200);
-    expect(response.body.token).toBe(jwtExample);
+    expect(response.body.token).toBe(mockTokenJwt);
     expect(response.body.identity).toBe(username);
   });
 });
