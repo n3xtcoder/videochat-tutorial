@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from '@/components/Home';
 import LoginForm from '@/components/LoginForm';
+import Video from '@/components/Video';
 import auth from '@/auth';
 
 Vue.use(Router);
@@ -32,6 +33,14 @@ export default new Router({
         auth.jwt.remove();
         return '/login';
       },
+    },
+    {
+      path: '/video',
+      name: 'Video',
+      component: Video,
+      beforeEnter: (to, from, next) => auth.assertAuthenticated()
+        .then(next)
+        .catch(() => { next({ path: '/login' }); }),
     },
   ],
 });
