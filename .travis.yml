@@ -1,0 +1,19 @@
+language: node_js
+
+node_js:
+  - "lts/*"
+
+cache:
+  directories:
+    - "server/node_modules"
+
+before_install:
+  - cd server
+  - cp .env.example .env
+
+install:
+  - npm install
+
+script:
+  - npm run lint
+  - npm test

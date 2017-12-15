@@ -11,7 +11,7 @@ All of the API server code is in the folder `./server`. To start development:
 ```
 cd server
 yarn install # or npm install (some warnings may occur, but usually nothing fatal)
-cp .env.example .env # Edit this with the right Twillio credentials
+cp .env.example .env # Edit this with the right Twilio credentials (set an empty TWILIO_CHAT_SERVICE_SID if you only want to use video)
 node .
 ```
 
@@ -24,7 +24,7 @@ The API will run at http://localhost:3000 and provide two endpoints:
 POST /user *Authenticates the user and provides a JWT*
 Request body:
 ```
-{ 
+{
   "username":"patient",
   "password":"password"
 }
@@ -34,7 +34,7 @@ Responses:
 200 Success - *The authentication was successful*
 Example body:
 ```
-{ 
+{
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJwYXRpZW50IiwicGFzc3dvcmQiOiJwYXNzd29yZCIsImRpc3BsYXlOYW1lIjoiSG9tZXIgU2ltcHNvbiIsInJvbGUiOiJwYXRpZW50IiwiaWF0IjoxNTA4NzYxNDA0LCJleHAiOjE1MDg4NDc4MDR9.VDIbyyDpV8_g_KjWQw4H6UDPpvSuYjpjxM1hZ-ukpZ0"
 }
 ```
@@ -45,13 +45,13 @@ Example body:
 ### Token
 
 GET /token *Retrieves a token for Twillio*
-Headers: 
+Headers:
 `Authorization: Bearer <JWT>`
 
 Responses:
 200 Success
 ```
-{ 
+{
   "identity": "patient",
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJwYXRpZW50IiwicGFzc3dvcmQiOiJwYXNzd29yZCIsImRpc3BsYXlOYW1lIjoiSG9tZXIgU2ltcHNvbiIsInJvbGUiOiJwYXRpZW50IiwiaWF0IjoxNTA4NzYxNDA0LCJleHAiOjE1MDg4NDc4MDR9.VDIbyyDpV8_g_KjWQw4H6UDPpvSuYjpjxM1hZ-ukpZ0"
 }
@@ -67,7 +67,7 @@ curl -H "Content-Type: application/json" \
      http://localhost:3000/user \
      -d '{"username":"patient", "password":"password"}'
 
-# Get the twillio token to start your session
+# Get the twilio token to start your session
 curl -H "Content-Type: application/json" \
      -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJwYXRpZW50IiwicGFzc3dvcmQiOiJwYXNzd29yZCIsImRpc3BsYXlOYW1lIjoiSG9tZXIgU2ltcHNvbiIsInJvbGUiOiJwYXRpZW50IiwiaWF0IjoxNTA4NzYxNDA0LCJleHAiOjE1MDg4NDc4MDR9.VDIbyyDpV8_g_KjWQw4H6UDPpvSuYjpjxM1hZ-ukpZ0" \
      http://localhost:3000/token
@@ -84,9 +84,9 @@ Both use the password "password" for testing purposes.
 
 ## Challenge Process
 
-Once you are running the API: 
-1. Add your code to ./ui. 
-2. Within this folder, feel free to use yarn or npm or any other tools and frameworks you require. 
+Once you are running the API:
+1. Add your code to ./ui.
+2. Within this folder, feel free to use yarn or npm or any other tools and frameworks you require.
 3. To submit a solution, make a pull request with your changes.
 4. Don't forget to include documentation on how to run your UI.
 5. You should not need to change any code inside `./server` but if you decide to, please comment as to why.
@@ -103,9 +103,9 @@ For a quick and easy challenge to begin, first create a login form for the users
 Don't forget to employ validation, tooltips, and any other UI techniques to make the form user friendly. Design is not the main focus but make sure the UI is clean and easy to use.
 
 ## Testing with https / between devices
- 
+
 When developing a peer2peer video chat you may find it useful to test communication between devices and share links to your dev environment with those devices and other users. Ngrok is a tool to create a secure http(s) tunnel to your development environment which enables you to conveniently do this kind of testing. Here's how to use it:
- 
+
 1. Install [ngrok](https://ngrok.com/)
 ```
 npm install ngrok -g
