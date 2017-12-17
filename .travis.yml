@@ -3,11 +3,6 @@ language: node_js
 node_js:
   - "lts/*"
 
-cache:
-  directories:
-    - "server/node_modules"
-    - "ui/node_modules"
-
 install:
   - npm install
 
@@ -15,6 +10,9 @@ jobs:
   include:
     - stage: test
       # ui tests
+      cache:
+        directories:
+          - "ui/node_modules"
       before_install:
         - cd ui
       script:
@@ -22,6 +20,9 @@ jobs:
         - npm run unit
         - npm run e2e
     - # server tests
+      cache:
+        directories:
+          - "server/node_modules"
       before_install:
         - cd server
         - cp .env.example .env
