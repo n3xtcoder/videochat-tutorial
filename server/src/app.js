@@ -1,5 +1,7 @@
 // Config is loaded from either the environment or a .env file
-require('dotenv-safe').load();
+require('dotenv-safe').load({
+  allowEmptyValues: true,
+});
 
 const express = require('express');
 const bodyParser = require('body-parser');
