@@ -18,7 +18,6 @@ jobs:
       script:
         - npm run lint
         - npm run unit
-        - npm run e2e
     - # server tests
       cache:
         directories:
